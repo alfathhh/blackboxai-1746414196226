@@ -43,6 +43,14 @@ async function handleMessage(sock, message) {
             response = 'Terima kasih telah menghubungi kami. Semoga hari Anda menyenangkan!';
         } else if (messageText.toLowerCase() === 'admin') {
             response = 'Anda dapat menghubungi admin di nomor +62xxxxxxxxxxx.\n\nApakah Anda membutuhkan bantuan lain? Jika ya, silakan ketik menu yang diinginkan. Jika tidak, ketik "tidak".';
+        } else if (
+            messageText.toLowerCase() !== 'menu' &&
+            messageText.toLowerCase() !== 'info' &&
+            messageText.toLowerCase() !== 'bantuan' &&
+            messageText.toLowerCase() !== 'tidak' &&
+            messageText.toLowerCase() !== 'admin'
+        ) {
+            response = 'Maaf, pilihan Anda tidak ada dalam menu. Anda dapat berbicara dengan orang asli dengan mengetik "admin".\n\nApakah Anda membutuhkan bantuan lain? Jika ya, silakan ketik menu yang diinginkan. Jika tidak, ketik "tidak".';
         } else {
             // If user wants more help, repeat menu
             response = '📋 Menu:\n1. Produk\n2. Layanan\n3. Kontak\n\nApakah Anda membutuhkan bantuan lain? Jika ya, silakan ketik menu yang diinginkan. Jika tidak, ketik "tidak".';
