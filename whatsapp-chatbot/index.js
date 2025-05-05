@@ -13,6 +13,9 @@ if (!fs.existsSync(AUTH_FOLDER)) {
     fs.mkdirSync(AUTH_FOLDER);
 }
 
+// Store to track users who have been greeted
+const greetedUsers = new Set();
+
 // Message handler function
 async function handleMessage(sock, message) {
     try {
@@ -24,6 +27,17 @@ async function handleMessage(sock, message) {
         if (fromMe) return;
 
         logger.info(`Received message: ${messageText} from ${remoteJid}`);
+
+        // Check if user has been greeted
+        if (!greetedUsers.has(remoteJid)) {
+            // Send welcome message and menu
+            const welcomeMessage = 'Selamat datang! Terima kasih telah menghubungi chatbot ini.\n\n';
+            const menuMessage = '📋 Menu:\n1. Produk\n2. Layanan\n3. Kontak\n\nSilakan ketik salah satu menu di atas untuk memulai.';
+            await sock.sendMessage(remoteJid, { text: welcomeMessage + menuMessage });
+            greetedUsers.add(remoteJid);
+            logger.info(`Sent welcome message to ${remoteJid}`);
+            return;
+        }
 
         // Simple response logic
         let response = 'Hai! Terima kasih telah menghubungi chatbot ini.\n\n';
